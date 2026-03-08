@@ -6,6 +6,7 @@
 <ul>
     <li> types - отображает типы источников задач </li>
     <li> get-tasks - вывести задачи из указанного источника. Для ввода имени файла нужен флаг -f/--file </li>
+    <li> pytest --cov=src --cov-report=term-missing - запуск тестов </li>
 </ul>
 
 <p2> Структура </p2>
@@ -35,6 +36,9 @@
     │       ├── main.py                        # Точка входа
     │   ├── tests/                             # Юниттесы
     │       ├── __init__.py                    #
+    │       ├── test_api_source.py             # Тесты источника API-заглушки
+    │       ├── test_generator_source.py       # Тесты источника генератора
+    │       ├── test_jsonl_source.py           # Тесты источника JSON Lines файла
     │   ├── .gitignore                         # Файл, который не даёт мусорить в гите
     │   ├── .pre-commit-config.yaml            # Конфигурация любимого pre-commit
     │   ├── pyproject.toml                     # Информация по проекту(для системы)
