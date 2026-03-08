@@ -6,6 +6,7 @@ from src.contracts.task import Task
 from src.sources.registry import add_source
 from src.utilities.exceptions import JSONLinesError
 from src.utilities.generator_id import generator_id
+from src.utilities.logger import logger
 
 
 @dataclass(frozen=True)
@@ -34,7 +35,9 @@ class JSONLinesSource:
         :return: Итератор задач
         """
 
+        logger.info("Used: JSONLinesSource")
         if self.path[-6:] != ".jsonl":
+            logger.error(f"Incorrect file name: \"{self.path}\"")
             raise JSONLinesError(f"Incorrect file name: \"{self.path}\"")
 
         try:
@@ -51,7 +54,7 @@ class JSONLinesSource:
                         payload = task.get("payload", "Task has not defined")
                     )
         except Exception as error:
-            print(error)
+            raise JSONLinesError(error)
 
 
 @add_source("jsonl")

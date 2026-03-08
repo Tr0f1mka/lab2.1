@@ -5,6 +5,7 @@ from src.contracts.task import Task
 from src.constants import EXAMPLES_TASKS
 from src.utilities.generator_id import generator_id
 from src.sources.registry import add_source
+from src.utilities.logger import logger
 
 
 class GeneratorTask:
@@ -18,6 +19,7 @@ class GeneratorTask:
         :return: Итератор задач
         """
 
+        logger.info("Used: GeneratorTask")
         for i in range(randint(5, 10)):
             id = generator_id(i)
             payload = choice(EXAMPLES_TASKS)

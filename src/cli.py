@@ -5,6 +5,7 @@ from src.sources.registry import REGISTRY
 from src.sources.api_source import APISource                   # noqa: F401
 from src.sources.generator_source import GeneratorTask        # noqa: F401
 from src.sources.jsonl_source import JSONLinesSource           # noqa: F401
+from src.utilities.logger import logger
 
 
 app = Typer()
@@ -46,6 +47,11 @@ def get_tasks(
     file: str = Option(None, "-f", "--file", help="Имя файла источника задач")
 ) -> None:
 
-    ready_source = build_source(source, file)
-    for i in ready_source.get_tasks():
-        print(f"ID: {i.id:8}    PAYLOAD: {i.payload}")
+    try:
+        ready_source = build_source(source, file)
+        for i in ready_source.get_tasks():
+            print(f"ID: {i.id:8}    PAYLOAD: {i.payload}")
+    except Exception as error:
+        logger.error(error)
+        raise BadParameter(error)
+    logger.info("SUCCES")

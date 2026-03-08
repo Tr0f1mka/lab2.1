@@ -3,6 +3,7 @@ from typing import Iterable
 from src.contracts.task import Task
 from src.sources.registry import add_source
 from src.utilities.generator_id import generator_id
+from src.utilities.logger import logger
 
 
 class APISource:
@@ -39,7 +40,9 @@ class APISource:
         :return: Итератор задач
         """
 
+        logger.info("Used: APISource")
         response = self.stub()
+        logger.info("The task dictionary has been received")
         for i, task in enumerate(response, start=1):
             yield Task(
                 id = task.get("id", generator_id(i)),
