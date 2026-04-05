@@ -1,6 +1,3 @@
-# import logging.config  # noqa: F401
-
-
 LOGGING_CONFIG = {
     "version": 1,
     "disable_existing_loggers": False,
