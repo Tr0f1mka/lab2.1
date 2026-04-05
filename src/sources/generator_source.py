@@ -21,16 +21,16 @@ class GeneratorTask:
 
         logger.info("Used: GeneratorTask")
         for i in range(randint(5, 10)):
-            id = generator_id(i)
+            id = generator_id()
             payload = choice(EXAMPLES_TASKS)
             yield Task(id = id, payload = payload)
 
 
-@add_source(name = "gen_tasks")
-def create_generator_tasks() -> GeneratorTask:
-    """
-    Создаёт экземпляр генератора задач
-    :return: Генератор задач
-    """
+    @add_source(name = "gen_tasks")
+    def create_source() -> "GeneratorTask":
+        """
+        Создаёт экземпляр генератора задач
+        :return: Генератор задач
+        """
 
-    return GeneratorTask()
+        return GeneratorTask()

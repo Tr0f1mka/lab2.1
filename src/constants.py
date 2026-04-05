@@ -1,5 +1,3 @@
-ALPHABET = "abcdefghijklmnopqrstuvwxyz"
-
 EXAMPLES_TASKS = [
     "Сделать лабу",
     "Понять смысл жизни",

@@ -3,7 +3,7 @@ from typer import Typer, Argument, Option, BadParameter        #type: ignore
 from src.contracts.task_source import TaskSource
 from src.sources.registry import REGISTRY
 from src.sources.api_source import APISource                   # noqa: F401
-from src.sources.generator_source import GeneratorTask        # noqa: F401
+from src.sources.generator_source import GeneratorTask         # noqa: F401
 from src.sources.jsonl_source import JSONLinesSource           # noqa: F401
 from src.utilities.logger import logger
 
@@ -19,7 +19,7 @@ def build_source(source: str, file: str | None) -> TaskSource:
     """
 
     manufacture = REGISTRY[source]
-    if source == "jsonl":
+    if source in ["jsonl", "api"]:
         return manufacture(file)
     return manufacture()
 

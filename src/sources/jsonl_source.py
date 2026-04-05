@@ -1,33 +1,27 @@
-from dataclasses import dataclass
 from typing import Iterable
-import json
 
 from src.contracts.task import Task
 from src.sources.registry import add_source
 from src.utilities.exceptions import JSONLinesError
 from src.utilities.generator_id import generator_id
 from src.utilities.logger import logger
+from src.utilities.jsonl_parser import parser
 
 
-@dataclass(frozen=True)
 class JSONLinesSource:
+    """
+    Извлекатель задач из файла формата JSON Lines
+    """
+
     path: str
 
-    @staticmethod
-    def parser(line: str, line_index: int, file: str) -> dict[str, str]:
+    def __init__(self, path: str) -> None:
         """
-        Парсер JSON-строк
-        :param line: Строка, которую нужно распарсить
-        :param line_index: Целое число - номер строки(для логов ошибок)
-        :param file: Строка - имя файла(для логов ошибок)
-        :return: Распарсенный словарь
+        Инициализация источника
+        :param path: Строка - имя файла
         """
 
-        try:
-            return json.loads(line)
-        except json.JSONDecodeError as error:
-            raise JSONLinesError(f"File: {file}; Line: {line_index}; Error: {error}")
-
+        self.path = path
 
     def get_tasks(self) -> Iterable[Task]:
         """
@@ -48,15 +42,20 @@ class JSONLinesSource:
                     line = line.strip()
                     if not line:
                         continue
-                    task = self.parser(line, i, self.path)
+                    task = parser(line, i, self.path)
                     yield Task(
-                        id = task.get("id", generator_id(i)),
+                        id = task.get("id", generator_id()),
                         payload = task.get("payload", "Task has not defined")
                     )
         except Exception as error:
             raise JSONLinesError(error)
 
 
-@add_source("jsonl")
-def create_jsonl_source(file: str) -> JSONLinesSource:
-    return JSONLinesSource(path=file)
+    @add_source("jsonl")
+    def create_source(file: str) -> "JSONLinesSource":
+        """
+        Создаёт экземпляр генератора задач
+        :return: Генератор задач
+        """
+
+        return JSONLinesSource(path=file)

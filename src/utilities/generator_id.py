@@ -1,13 +1,10 @@
-from random import randint, choice
+import uuid
 
-from src.constants import ALPHABET
-
-
-def generator_id(ind: int) -> str:
+def generator_id() -> str:
     """
     Генератор ID
     :param ind: Номер задачи в цикле
     :return: Строка - ID
     """
 
-    return "".join([choice(ALPHABET) for x in range(randint(1, 4))]) + str(ind)
+    return str(uuid.uuid1())
